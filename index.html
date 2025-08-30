@@ -170,7 +170,7 @@
     <!-- Floating Action Button -->
     <button
       id="add-letter-btn"
-      class="fixed bottom-6 right-6 bg-pink-500 hover:bg-pink-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-transform transform hover:scale-110"
+      class="fixed bottom-6 right-6 bg-pink-500 hover:bg-pink-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-transform transform hover:scale-110 hidden"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -414,13 +414,11 @@
                 const letterEl = document.createElement("div");
                 letterEl.className = "letter-link";
                 const date = letter.createdAt
-                  ? letter.createdAt
-                      .toDate()
-                      .toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })
+                  ? letter.createdAt.toDate().toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })
                   : "Just now";
 
                 letterEl.innerHTML = `
