@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Letters for Kasil</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600&family=Padauk:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Padauk", "Cormorant Garamond", serif;
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.4),
+            rgba(0, 0, 0, 0.4)
+          ),
+          url("https://images.unsplash.com/photo-1502472584811-0a2f2feb8968?auto=format&fit=crop&w=1920&q=80");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: #f5f3ef;
+      }
+      #letter-list-container,
+      #letter-viewer-container {
+        background-color: rgba(26, 26, 26, 0.65);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        animation: fadeIn 1.5s ease-out forwards;
+      }
+      .letter-link {
+        transition: background-color 0.3s ease, padding-left 0.3s ease;
+      }
+      .letter-link:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        padding-left: 2rem;
+      }
+      .letter-title {
+        font-family: "Cormorant Garamond", serif;
+      }
+      .letter-date {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 0.9rem;
+        color: #b0a99f;
+      }
+      .petal {
+        position: absolute;
+        top: -20px;
+        background-color: #e58e8e;
+        border-radius: 50% 10%;
+        opacity: 0.7;
+        animation: fall linear infinite;
+      }
+      #new-letter-modal {
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+      }
+      .modal-content {
+        background-color: #1a1a1a;
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      /* Styles from letter viewer */
+      .signature {
+        font-family: "Caveat", cursive;
+        color: #f7d794;
+      }
+      .heart {
+        color: #e58e8e;
+        text-shadow: 0 0 10px rgba(229, 142, 142, 0.5);
+        animation: pulse 2.5s infinite;
+      }
+      .letter-body p {
+        margin-bottom: 1.25rem;
+      }
+      @media (max-width: 640px) {
+        #letter-viewer-container {
+          padding: 1.5rem;
+          margin: 1rem;
+        }
+        .letter-body,
+        .letter-body p {
+          font-size: 1rem;
+          line-height: 1.9rem;
+        }
+        .signature {
+          font-size: 2.25rem;
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fall {
+        to {
+          transform: translateY(105vh) rotate(360deg);
+        }
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body class="flex items-center justify-center min-h-screen">
+    <!-- Main View: List of Letters -->
+    <main
+      id="letter-list-container"
+      class="w-full max-w-2xl m-4 sm:m-6 rounded-lg shadow-2xl"
+    >
+      <header class="p-8 text-center">
+        <h1 class="letter-title text-4xl sm:text-5xl text-white">For Kasil</h1>
+        <p class="text-gray-300 mt-2 italic">From my heart to yours</p>
+      </header>
+      <div
+        id="letters-container"
+        class="py-2 border-y border-gray-700/50 min-h-[120px]"
+      >
+        <p id="loading-state" class="text-center p-8 text-gray-400">
+          Loading letters...
+        </p>
+      </div>
+      <footer class="text-center p-6 text-xs text-gray-400">
+        <p>With love, always.</p>
+        <p id="user-id-display" class="mt-2 opacity-50"></p>
+      </footer>
+    </main>
+
+    <!-- Letter Viewer (Initially Hidden) -->
+    <main
+      id="letter-viewer-container"
+      class="w-full max-w-2xl p-8 sm:p-12 lg:p-16 rounded-lg leading-loose m-4 sm:m-6 hidden"
+    >
+      <div id="letter-content-container">
+        <!-- Dynamic letter content will be loaded here -->
+      </div>
+      <button
+        id="back-to-list-btn"
+        class="inline-block mt-8 text-pink-400 hover:text-pink-300 transition-colors"
+      >
+        &larr; Back to all letters
+      </button>
+    </main>
+
+    <!-- Floating Action Button -->
+    <button
+      id="add-letter-btn"
+      class="fixed bottom-6 right-6 bg-pink-500 hover:bg-pink-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-transform transform hover:scale-110"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 4v16m8-8H4"
+        />
+      </svg>
+    </button>
+
+    <!-- Modal for New Letter -->
+    <div
+      id="new-letter-modal"
+      class="fixed inset-0 w-full h-full flex items-center justify-center hidden"
+    >
+      <div
+        class="modal-content w-full max-w-lg m-4 p-8 rounded-lg shadow-2xl border border-gray-700"
+      >
+        <h2 class="letter-title text-3xl text-white mb-6">New Letter</h2>
+        <form id="new-letter-form">
+          <input
+            type="text"
+            id="letter-title-input"
+            placeholder="Letter Title"
+            class="w-full p-3 bg-gray-800 border border-gray-600 rounded-md mb-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            required
+          />
+          <textarea
+            id="letter-content-input"
+            placeholder="Write your heart out..."
+            rows="10"
+            class="w-full p-3 bg-gray-800 border border-gray-600 rounded-md mb-6 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            required
+          ></textarea>
+          <div class="flex justify-end gap-4">
+            <button
+              type="button"
+              id="cancel-btn"
+              class="py-2 px-6 bg-gray-600 hover:bg-gray-700 rounded-md text-white transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="py-2 px-6 bg-pink-500 hover:bg-pink-600 rounded-md text-white transition-colors"
+            >
+              Save Letter
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script type="module">
+      // Firebase Imports
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+      import {
+        getAuth,
+        signInAnonymously,
+        signInWithCustomToken,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+      import {
+        getFirestore,
+        collection,
+        doc,
+        getDoc,
+        addDoc,
+        onSnapshot,
+        query,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCHrI_AI8ZlzoNxzrUan8V2MG6zyVPYLwQ",
+        authDomain: "letters-c2152.firebaseapp.com",
+        projectId: "letters-c2152",
+        storageBucket: "letters-c2152.firebasestorage.app",
+        messagingSenderId: "915154455185",
+        appId: "1:915154455185:web:c144b5f2574023dc354d30",
+        measurementId: "G-N38ZDH6VL0",
+      };
+
+      // --- Firebase Configuration ---
+      // const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+      const appId =
+        typeof __app_id !== "undefined" ? __app_id : "default-app-id";
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+
+      // --- UI Elements ---
+      const letterListContainer = document.getElementById(
+        "letter-list-container"
+      );
+      const letterViewerContainer = document.getElementById(
+        "letter-viewer-container"
+      );
+      const lettersContainer = document.getElementById("letters-container");
+      const letterContentContainer = document.getElementById(
+        "letter-content-container"
+      );
+      const backToListBtn = document.getElementById("back-to-list-btn");
+      const addBtn = document.getElementById("add-letter-btn");
+      const modal = document.getElementById("new-letter-modal");
+      const cancelBtn = document.getElementById("cancel-btn");
+      const newLetterForm = document.getElementById("new-letter-form");
+      const loadingState = document.getElementById("loading-state");
+      const userIdDisplay = document.getElementById("user-id-display");
+
+      let currentUserId = null;
+
+      // --- View Switching Logic ---
+      function showListView() {
+        letterViewerContainer.classList.add("hidden");
+        letterListContainer.classList.remove("hidden");
+        addBtn.classList.remove("hidden");
+      }
+
+      async function showLetterView(letterId) {
+        if (!currentUserId || !letterId) return;
+
+        letterListContainer.classList.add("hidden");
+        letterViewerContainer.classList.remove("hidden");
+        addBtn.classList.add("hidden");
+        letterContentContainer.innerHTML = `<p class="text-center p-8 text-gray-400">Loading your letter...</p>`;
+
+        try {
+          const letterRef = doc(
+            db,
+            "artifacts",
+            appId,
+            "users",
+            currentUserId,
+            "letters",
+            letterId
+          );
+          const docSnap = await getDoc(letterRef);
+
+          if (docSnap.exists()) {
+            const letter = docSnap.data();
+            const date = letter.createdAt
+              ? letter.createdAt.toDate()
+              : new Date();
+            const formattedDate = date.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
+            const formattedTime = date.toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+            const formattedContent = letter.content.replace(/\n/g, "<br>");
+
+            letterContentContainer.innerHTML = `
+                        <div class="text-right text-gray-400 text-xs sm:text-sm mb-12">
+                            <p>${formattedDate}</p>
+                            <p>${formattedTime}</p>
+                        </div>
+                        <h1 class="letter-title text-3xl sm:text-4xl text-white mb-8">${letter.title}</h1>
+                        <div class="letter-body text-base sm:text-lg whitespace-pre-line">${formattedContent}</div>
+                        <div class="mt-10"><p class="signature text-3xl sm:text-4xl mt-2">Ruki</p></div>
+                        <div class="text-center mt-10"><p class="heart text-2xl sm:text-3xl">♥</p></div>
+                    `;
+          } else {
+            letterContentContainer.innerHTML =
+              '<p class="text-center p-8 text-red-400">Letter not found.</p>';
+          }
+        } catch (error) {
+          console.error("Error loading document:", error);
+          letterContentContainer.innerHTML =
+            '<p class="text-center p-8 text-red-400">Could not load the letter.</p>';
+        }
+      }
+
+      backToListBtn.addEventListener("click", showListView);
+
+      // --- Modal Logic ---
+      addBtn.addEventListener("click", () => modal.classList.remove("hidden"));
+      cancelBtn.addEventListener("click", () => modal.classList.add("hidden"));
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) modal.classList.add("hidden");
+      });
+
+      // --- Firebase Authentication and Data Handling ---
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          currentUserId = user.uid;
+          userIdDisplay.textContent = `Session ID: ${currentUserId}`;
+          const lettersColRef = collection(
+            db,
+            "artifacts",
+            appId,
+            "users",
+            currentUserId,
+            "letters"
+          );
+
+          // Listen for real-time updates for the letter list
+          onSnapshot(query(lettersColRef), (snapshot) => {
+            loadingState.style.display = "none";
+            lettersContainer.innerHTML = "";
+            if (snapshot.empty) {
+              lettersContainer.innerHTML = `<p class="text-center p-8 text-gray-400">No letters written yet. Click the '+' to begin.</p>`;
+            } else {
+              snapshot.docs.forEach((doc) => {
+                const letter = doc.data();
+                const letterEl = document.createElement("div"); // Changed from <a>
+                letterEl.className = "letter-link block cursor-pointer";
+                letterEl.dataset.id = doc.id; // Store ID in data attribute
+                const date = letter.createdAt
+                  ? letter.createdAt
+                      .toDate()
+                      .toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })
+                  : "Just now";
+                letterEl.innerHTML = `<div class="p-6"><span class="letter-title text-lg sm:text-xl text-gray-200 block">${letter.title}</span><span class="letter-date block mt-1">${date}</span></div>`;
+                lettersContainer.appendChild(letterEl);
+              });
+            }
+          });
+
+          // Event listener for clicking on a letter in the list
+          lettersContainer.addEventListener("click", (e) => {
+            const letterLink = e.target.closest(".letter-link");
+            if (letterLink && letterLink.dataset.id) {
+              showLetterView(letterLink.dataset.id);
+            }
+          });
+
+          // Handle New Letter Form Submission
+          newLetterForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const title = document.getElementById("letter-title-input").value;
+            const content = document.getElementById(
+              "letter-content-input"
+            ).value;
+
+            try {
+              await addDoc(lettersColRef, {
+                title,
+                content,
+                createdAt: serverTimestamp(),
+              });
+              newLetterForm.reset();
+              modal.classList.add("hidden");
+            } catch (error) {
+              console.error("Error adding document: ", error);
+              alert("Could not save the letter. Please try again.");
+            }
+          });
+        } else {
+          currentUserId = null;
+        }
+      });
+
+      // --- Sign In Logic ---
+      async function authenticateUser() {
+        try {
+          if (
+            typeof __initial_auth_token !== "undefined" &&
+            __initial_auth_token
+          ) {
+            await signInWithCustomToken(auth, __initial_auth_token);
+          } else {
+            await signInAnonymously(auth);
+          }
+        } catch (error) {
+          console.error("Authentication failed:", error);
+          loadingState.textContent = "Could not authenticate. Please refresh.";
+        }
+      }
+      authenticateUser();
+
+      // --- Decorative Petals ---
+      function createPetals() {
+        const container = document.body;
+        if (document.querySelector(".petal")) return;
+        for (let i = 0; i < 20; i++) {
+          const petal = document.createElement("div");
+          petal.className = "petal";
+          const size = Math.random() * 8 + 4;
+          petal.style.width = `${size}px`;
+          petal.style.height = `${size}px`;
+          petal.style.left = `${Math.random() * 100}vw`;
+          petal.style.animationDuration = `${Math.random() * 6 + 8}s`;
+          petal.style.animationDelay = `${Math.random() * 7}s`;
+          container.appendChild(petal);
+        }
+      }
+      window.onload = createPetals;
+    </script>
+  </body>
+</html>

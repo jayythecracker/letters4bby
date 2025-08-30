@@ -1,0 +1,9 @@
+  const firebaseConfig = {
+        apiKey: "AIzaSyCHrI_AI8ZlzoNxzrUan8V2MG6zyVPYLwQ",
+        authDomain: "letters-c2152.firebaseapp.com",
+        projectId: "letters-c2152",
+        storageBucket: "letters-c2152.firebasestorage.app",
+        messagingSenderId: "915154455185",
+        appId: "1:915154455185:web:c144b5f2574023dc354d30",
+        measurementId: "G-N38ZDH6VL0",
+      };
