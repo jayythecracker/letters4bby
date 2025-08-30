@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="my">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Letter</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600&family=Padauk:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Padauk", "Cormorant Garamond", serif;
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.4),
+            rgba(0, 0, 0, 0.4)
+          ),
+          url("https://images.unsplash.com/photo-1502472584811-0a2f2feb8968?auto=format&fit=crop&w=1920&q=80");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: #f5f3ef;
+      }
+      #letter {
+        background-color: rgba(26, 26, 26, 0.65);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        animation: fadeIn 2s ease-out forwards;
+      }
+      .signature {
+        font-family: "Caveat", cursive;
+        color: #f7d794;
+      }
+      .heart {
+        color: #e58e8e;
+        text-shadow: 0 0 10px rgba(229, 142, 142, 0.5);
+        animation: pulse 2.5s infinite;
+      }
+      .letter-body p {
+        margin-bottom: 1.25rem;
+      }
+      .petal {
+        position: absolute;
+        top: -20px;
+        background-color: #e58e8e;
+        border-radius: 50% 10%;
+        opacity: 0.7;
+        animation: fall linear infinite;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+      }
+      @keyframes fall {
+        to {
+          transform: translateY(105vh) rotate(360deg);
+        }
+      }
+      @media (max-width: 640px) {
+        #letter {
+          padding: 1.5rem;
+          margin: 1rem;
+        }
+        .letter-body,
+        .letter-body p {
+          font-size: 1rem;
+          line-height: 1.9rem;
+        }
+        .signature {
+          font-size: 2.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="flex items-center justify-center min-h-screen">
+    <main
+      id="letter"
+      class="w-full max-w-2xl p-8 sm:p-12 lg:p-16 rounded-lg leading-loose m-4 sm:m-6"
+    >
+      <div id="letter-content-container">
+        <p id="loading-state" class="text-center p-8 text-gray-400">
+          Loading your letter...
+        </p>
+      </div>
+      <a
+        href="index.html"
+        class="inline-block mt-8 text-pink-400 hover:text-pink-300 transition-colors"
+        >&larr; Back to all letters</a
+      >
+    </main>
+
+    <script type="module">
+      // NOTE: Firebase Auth is NOT needed for this public viewing page.
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+      import {
+        getFirestore,
+        doc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCHrI_AI8ZlzoNxzrUan8V2MG6zyVPYLwQ",
+        authDomain: "letters-c2152.firebaseapp.com",
+        projectId: "letters-c2152",
+        storageBucket: "letters-c2152.firebasestorage.app",
+        messagingSenderId: "915154455185",
+        appId: "1:915154455185:web:c144b5f2574023dc354d30",
+        measurementId: "G-N38ZDH6VL0",
+      };
+      const appId =
+        typeof __app_id !== "undefined" ? __app_id : "default-app-id";
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      const container = document.getElementById("letter-content-container");
+      const loadingState = document.getElementById("loading-state");
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const letterId = urlParams.get("id");
+
+      async function loadLetter() {
+        if (!letterId) {
+          container.innerHTML =
+            '<p class="text-center p-8 text-red-400">Error: No letter ID provided in the URL.</p>';
+          return;
+        }
+
+        try {
+          // Read from the public collection, no user ID needed
+          const letterRef = doc(
+            db,
+            "artifacts",
+            appId,
+            "public",
+            "data",
+            "letters",
+            letterId
+          );
+          const docSnap = await getDoc(letterRef);
+
+          if (docSnap.exists()) {
+            const letter = docSnap.data();
+            document.title = letter.title;
+
+            const date = letter.createdAt
+              ? letter.createdAt.toDate()
+              : new Date();
+            const formattedDate = date.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            });
+            const formattedTime = date.toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+
+            container.innerHTML = `
+                        <div class="text-right text-gray-400 text-xs sm:text-sm mb-12">
+                            <p>${formattedDate}</p>
+                            <p>${formattedTime}</p>
+                        </div>
+                        <div class="letter-body text-base sm:text-lg whitespace-pre-line">${letter.content}</div>
+                        <div class="mt-10"><p class="signature text-3xl sm:text-4xl mt-2">Ruki</p></div>
+                        <div class="text-center mt-10"><p class="heart text-2xl sm:text-3xl">♥</p></div>
+                    `;
+          } else {
+            container.innerHTML =
+              '<p class="text-center p-8 text-red-400">Letter not found. The link may be incorrect.</p>';
+          }
+        } catch (error) {
+          console.error("Error loading document:", error);
+          container.innerHTML =
+            '<p class="text-center p-8 text-red-400">Could not load the letter.</p>';
+        }
+      }
+
+      loadLetter(); // Load the letter on page start
+
+      function createPetals() {
+        const container = document.body;
+        if (document.querySelector(".petal")) return;
+        for (let i = 0; i < 20; i++) {
+          const petal = document.createElement("div");
+          petal.className = "petal";
+          const size = Math.random() * 8 + 4;
+          petal.style.width = `${size}px`;
+          petal.style.height = `${size}px`;
+          petal.style.left = `${Math.random() * 100}vw`;
+          petal.style.animationDuration = `${Math.random() * 6 + 8}s`;
+          petal.style.animationDelay = `${Math.random() * 7}s`;
+          container.appendChild(petal);
+        }
+      }
+      window.onload = createPetals;
+    </script>
+  </body>
+</html>

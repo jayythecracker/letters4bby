@@ -34,11 +34,10 @@
         animation: fadeIn 1.5s ease-out forwards;
       }
       .letter-link {
-        transition: background-color 0.3s ease, padding-left 0.3s ease;
+        transition: background-color 0.3s ease;
       }
       .letter-link:hover {
         background-color: rgba(255, 255, 255, 0.05);
-        padding-left: 2rem;
       }
       .letter-title {
         font-family: "Cormorant Garamond", serif;
@@ -64,8 +63,15 @@
         background-color: #1a1a1a;
         animation: fadeIn 0.5s ease-out;
       }
+      .share-btn {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: background-color 0.3s;
+      }
+      .share-btn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
 
-      /* Styles from letter viewer */
       .signature {
         font-family: "Caveat", cursive;
         color: #f7d794;
@@ -245,6 +251,7 @@
         serverTimestamp,
       } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+      // --- Firebase Configuration ---
       const firebaseConfig = {
         apiKey: "AIzaSyCHrI_AI8ZlzoNxzrUan8V2MG6zyVPYLwQ",
         authDomain: "letters-c2152.firebaseapp.com",
@@ -254,9 +261,6 @@
         appId: "1:915154455185:web:c144b5f2574023dc354d30",
         measurementId: "G-N38ZDH6VL0",
       };
-
-      // --- Firebase Configuration ---
-      // const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
       const appId =
         typeof __app_id !== "undefined" ? __app_id : "default-app-id";
       const app = initializeApp(firebaseConfig);
@@ -284,6 +288,30 @@
 
       let currentUserId = null;
 
+      // --- Helper Functions ---
+      function copyToClipboard(text, btn) {
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-9999px";
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand("copy");
+          const originalText = btn.textContent;
+          btn.textContent = "Copied!";
+          btn.disabled = true;
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          }, 2000);
+        } catch (err) {
+          console.error("Copy failed", err);
+          alert("Could not copy link.");
+        }
+        document.body.removeChild(textArea);
+      }
+
       // --- View Switching Logic ---
       function showListView() {
         letterViewerContainer.classList.add("hidden");
@@ -292,20 +320,19 @@
       }
 
       async function showLetterView(letterId) {
-        if (!currentUserId || !letterId) return;
-
         letterListContainer.classList.add("hidden");
         letterViewerContainer.classList.remove("hidden");
         addBtn.classList.add("hidden");
         letterContentContainer.innerHTML = `<p class="text-center p-8 text-gray-400">Loading your letter...</p>`;
 
         try {
+          // Read from the public collection
           const letterRef = doc(
             db,
             "artifacts",
             appId,
-            "users",
-            currentUserId,
+            "public",
+            "data",
             "letters",
             letterId
           );
@@ -325,7 +352,6 @@
               hour: "2-digit",
               minute: "2-digit",
             });
-            const formattedContent = letter.content.replace(/\n/g, "<br>");
 
             letterContentContainer.innerHTML = `
                         <div class="text-right text-gray-400 text-xs sm:text-sm mb-12">
@@ -333,7 +359,7 @@
                             <p>${formattedTime}</p>
                         </div>
                         <h1 class="letter-title text-3xl sm:text-4xl text-white mb-8">${letter.title}</h1>
-                        <div class="letter-body text-base sm:text-lg whitespace-pre-line">${formattedContent}</div>
+                        <div class="letter-body text-base sm:text-lg whitespace-pre-line">${letter.content}</div>
                         <div class="mt-10"><p class="signature text-3xl sm:text-4xl mt-2">Ruki</p></div>
                         <div class="text-center mt-10"><p class="heart text-2xl sm:text-3xl">♥</p></div>
                     `;
@@ -361,13 +387,18 @@
       onAuthStateChanged(auth, (user) => {
         if (user) {
           currentUserId = user.uid;
-          userIdDisplay.textContent = `Session ID: ${currentUserId}`;
+          userIdDisplay.textContent = `Admin Session: ${currentUserId.substring(
+            0,
+            8
+          )}...`;
+
+          // Letters are now in a public collection
           const lettersColRef = collection(
             db,
             "artifacts",
             appId,
-            "users",
-            currentUserId,
+            "public",
+            "data",
             "letters"
           );
 
@@ -380,9 +411,8 @@
             } else {
               snapshot.docs.forEach((doc) => {
                 const letter = doc.data();
-                const letterEl = document.createElement("div"); // Changed from <a>
-                letterEl.className = "letter-link block cursor-pointer";
-                letterEl.dataset.id = doc.id; // Store ID in data attribute
+                const letterEl = document.createElement("div");
+                letterEl.className = "letter-link";
                 const date = letter.createdAt
                   ? letter.createdAt
                       .toDate()
@@ -392,17 +422,34 @@
                         day: "numeric",
                       })
                   : "Just now";
-                letterEl.innerHTML = `<div class="p-6"><span class="letter-title text-lg sm:text-xl text-gray-200 block">${letter.title}</span><span class="letter-date block mt-1">${date}</span></div>`;
+
+                letterEl.innerHTML = `
+                                <div class="p-4 sm:p-6 flex justify-between items-center">
+                                    <div class="cursor-pointer flex-grow" data-id="${doc.id}">
+                                        <span class="letter-title text-lg sm:text-xl text-gray-200 block">${letter.title}</span>
+                                        <span class="letter-date block mt-1">${date}</span>
+                                    </div>
+                                    <button data-id="${doc.id}" class="share-btn text-sm py-2 px-4 rounded-md ml-4">Share</button>
+                                </div>
+                            `;
                 lettersContainer.appendChild(letterEl);
               });
             }
           });
 
-          // Event listener for clicking on a letter in the list
+          // Event listener for clicking on a letter or share button
           lettersContainer.addEventListener("click", (e) => {
-            const letterLink = e.target.closest(".letter-link");
-            if (letterLink && letterLink.dataset.id) {
-              showLetterView(letterLink.dataset.id);
+            const idElement = e.target.closest("[data-id]");
+            if (!idElement) return;
+            const letterId = idElement.dataset.id;
+
+            if (e.target.classList.contains("share-btn")) {
+              const path = window.location.pathname;
+              const dir = path.substring(0, path.lastIndexOf("/") + 1);
+              const shareUrl = `${window.location.origin}${dir}letter.html?id=${letterId}`;
+              copyToClipboard(shareUrl, e.target);
+            } else {
+              showLetterView(letterId);
             }
           });
 
@@ -413,7 +460,6 @@
             const content = document.getElementById(
               "letter-content-input"
             ).value;
-
             try {
               await addDoc(lettersColRef, {
                 title,
@@ -427,8 +473,6 @@
               alert("Could not save the letter. Please try again.");
             }
           });
-        } else {
-          currentUserId = null;
         }
       });
 
