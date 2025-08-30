@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Explanation</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for a heartfelt, classic feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            /* Using Padauk for Burmese text, with Cormorant as a fallback */
+            font-family: 'Padauk', 'Cormorant Garamond', serif;
+            /* Background image with a dark overlay to make text pop */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1502472584811-0a2f2feb8968?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #f5f3ef; /* A soft, warm parchment color for text */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        
+        /* The main "paper" area for the letter */
+        #letter {
+            /* Semi-transparent background to let the scene peek through */
+            background-color: rgba(26, 26, 26, 0.65);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            /* A more graceful fade-in animation */
+            animation: fadeIn 2s ease-out forwards;
+            /* Ensure it doesn't get too wide on large screens */
+            max-width: 42rem; /* approx 672px */
+            /* Responsive margin for centering */
+            margin: 1.5rem; 
+        }
+        
+        .signature {
+            font-family: 'Caveat', cursive;
+            color: #f7d794; /* A soft gold color */
+        }
+
+        /* The heart at the end with a soft pulse */
+        .heart {
+            color: #e58e8e; /* A dusty rose color */
+            text-shadow: 0 0 10px rgba(229, 142, 142, 0.5);
+            animation: pulse 2.5s infinite;
+        }
+
+        /* Paragraphs of the letter body */
+        .letter-body p {
+            margin-bottom: 1.25rem; /* Slightly less space on mobile */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+        
+        /* Falling petals animation */
+        .petal {
+            position: absolute;
+            top: -20px; /* Start above the screen */
+            background-color: #e58e8e;
+            border-radius: 50% 10%;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(360deg);
+            }
+        }
+
+        /* Mobile-specific adjustments */
+        @media (max-width: 640px) {
+            #letter {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .letter-body, .letter-body p {
+                font-size: 1rem; /* Slightly smaller for Burmese text */
+                line-height: 1.9rem;
+            }
+            .signature {
+                font-size: 2.25rem;
+            }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <!-- The Letter Container -->
+    <main id="letter" class="w-full p-8 sm:p-12 lg:p-16 rounded-lg leading-loose">
+        
+        <div class="text-right text-gray-400 text-xs sm:text-sm mb-12">
+            <p>August 31, 2025</p>
+            <p>3:59 AM</p>
+        </div>
+
+        <div class="letter-body text-base sm:text-lg">
+            <p>
+                Kasil က အကို့ကို gaslight လုပ်တယ်၊ overthink အောင်လုပ်တယ်လို့ ထင်နေခဲ့တာ။ တကယ်တမ်း အကို အဲ့လိုဟာတွေ တစ်ခုမှမလုပ်ခဲ့ဘူး။ အဲ့လိုလုပ်ခဲ့တယ်ထင်ရင်တောင် Kasil ဘက်က ထင်နေတာပဲဖြစ်မယ်။ အကို့ဘက်က ရည်ရွယ်ချက်ရှိရှိ လုပ်ခဲ့တာ တစ်ခုမှမပါဘူး။
+            </p>
+            <p>
+                အကို အများကြီး ပြောင်းလဲပေးခဲ့ပါတယ်။ စသိတုန်းက အကိုက အခုထက်ပိုဆိုးပါတယ်။ ရည်းစားလဲ ရှုပ်ခဲ့သေးတယ်။ Kasil ကိုလဲ ပြဿနာတွေကြားထဲ ဆွဲထည့်ခဲ့မိတယ်။ အကို အများကြီးပြောင်းလဲခဲ့တယ်၊ loyal ဖြစ်ပေးခဲ့တယ်။ Kasil နဲ့တွဲတဲ့တစ်လျှောက်လုံး အကို ဘယ်ကောင်မလေးကိုမှ စိတ်နဲ့တောင် မကြံခဲ့ဖူးဘူး။ flirt ဖို့ဆိုတာ အဝေးကြီးပဲ။
+            </p>
+            <p>
+                မိန်းကလေးသူငယ်ချင်းအသစ်လဲ မထားခဲ့ဘူး။ တွဲလာခဲ့တဲ့တစ်လျှောက်လုံး Kasil တစ်ယောက်တည်းကိုပဲ last seen ဖွင့်ပေးခဲ့တယ်။ call ဆိုလဲတူတူပဲ။ တစ်ခါပဲ my contact ထားဖူးတယ်။ နိုနိုနဲ့ တစ်ခါလားမသိဘူး အဲ့ဒါပဲ ဖုန်းပြောခဲ့ဖူးတယ်။ တွဲလာခဲ့တဲ့ ၆ လကျော်လုံး အကို Kasil တစ်ယောက်ထဲနဲ့ လုံလောက်ခဲ့တယ်။
+            </p>
+            <p>
+                အရင်က အကိုက အဲ့လောက်ထိ ဂရုစိုက်တတ်တဲ့လူ၊ စောင့်နေတတ်တဲ့လူမျိုး မဟုတ်ဘူး။ အကို Kasil တစ်ခုခုဖြစ်မှာ အမြဲစိတ်ပူခဲ့တယ်။ ရေသောက်ဖို့ အမြဲပြောတယ်။ Kasil နဲ့စကားပြောရဖို့ နိုးလာတဲ့ထိ စောင့်နေတဲ့လူမျိုးပါ။ အကို တကယ်အထီးကျန်နေလို့ နည်းနည်းစောစောထလာခဲ့ဖို့ပဲ တောင်းဆိုခဲ့ဖူးတယ်။ ဟို sex ကိစ္စတွေကလဲ Kasil က မလုပ်ချင်တာကို အတင်းမခိုင်းနဲ့ဆိုလို့ အကို ပြင်ခဲ့ပေးတယ်။
+            </p>
+            <p>
+                ဂိမ်းဆိုလဲ အကို Kasil နဲ့ဆော့ရရင် ပျော်နေတဲ့လူပါ။ Partner level 5 ရောက်တာ အရမ်းလိုချင်ခဲ့တာ။ couple name, couple profile လဲ ထားချင်ခဲ့တယ်။ အကို Kasil နဲ့ဆုံပြီးထဲက ပြောင်းလဲခဲ့တာတွေ အများကြီးပဲ။ အလုပ်လုပ်ရင်တောင် document ဖတ်ရမှာပျင်းတဲ့လူက အကို Kasil နဲ့ဖုန်းခေါ်ထားရင် ဖတ်မိတယ်။ အကို Kasil လောက် ဘယ်ကောင်မလေးကိုမှ အရေးမပေးခဲ့ဖူးဘူး။
+            </p>
+            <p>
+                အကိုဘာလို့ Kasil ကိုချစ်တာလဲဆိုတော့... Kasil က အကို့ကိုဂရုစိုက်တယ်၊ ချစ်တယ်၊ အမြဲ yapping လုပ်တယ်။ ချစ်စရာကောင်းတယ်၊ supportive ဖြစ်တယ်၊ ဆံပင်ရှည်တယ်၊ အရပ်ရှည်တယ်။ နားလည်ပေးတတ်တယ်၊ ဂိမ်းဆော့တာတော်တယ်၊ စာလဲတော်တယ်။ နာမည်က ယွန်းလေပြေမိုးဖြစ်နေတာကိုလဲ သဘောကျတယ်။ ကိုကိုလို့ခေါ်တယ်၊ တစ်ခါတစ်လေ ယောင်္ကျားလို့လဲခေါ်တယ်။ Kasil က ဘယ်သူ့အပိုင်လဲ၊ အကိုက ဘယ်သူ့အပိုင်လဲ အမြဲမေးတယ်။ Kasil ကို အကိုက အမြဲပိုင်တယ်လို့ပြောတယ်။ ပုံဆွဲတော်တယ်၊ သီချင်းဆိုတာလဲတော်တယ် (အခုရက်ပိုင်း အကိုတောင် vodka cranberry အမြဲနားထောင်ဖြစ်တယ်)။ တခြားသူတွေကိုကူညီပေးတယ်။ Dialogue တွေလိုက်ပြောတာလဲ သဘောကျတယ်။ နှုတ်ခမ်းမွေးနည်နည်းပေါက်နေတာလဲ သဘောကျတယ်။ နဖူးကိုလဲသဘောကျတယ် (အကိုတို့လက်ထပ်ပြီးရင် airport ထောင်မယ်တောင်ပြောဖူးတယ်)။ အကို့ကိုပျော်အောင်ထားတယ်။ အသံကိုလဲသဘောကျတယ်။ အကို့ကို စိတ်လုံခြုံမှုပေးတယ်။ တခြားကောင်လေးတွေနဲ့ မရောဘူး။ အများကြီးကျန်ပါသေးတယ်။ I love watermelon btw.
+            </p>
+            <p class="mt-8">
+                အကိုထွက်သွားရမယ့်အကြောင်းရင်းကတော့ Kasil အကို့ကို မချစ်တော့တာပါပဲ။
+            </p>
+        </div>
+
+        <div class="mt-10">
+            <p class="signature text-3xl sm:text-4xl mt-2">Ruki</p>
+        </div>
+        
+        <div class="text-center mt-10">
+            <p class="heart text-2xl sm:text-3xl">♥</p>
+        </div>
+
+    </main>
+    
+    <script>
+        function createPetals() {
+            const container = document.body;
+            const isMobile = window.innerWidth < 768;
+            const petalCount = isMobile ? 12 : 20; 
+            if (document.querySelector('.petal')) return;
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                const size = Math.random() * 8 + 4;
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size}px`;
+                petal.style.left = `${Math.random() * 100}vw`;
+                const duration = Math.random() * 6 + 8;
+                const delay = Math.random() * 7;
+                petal.style.animationDuration = `${duration}s`;
+                petal.style.animationDelay = `${delay}s`;
+                container.appendChild(petal);
+            }
+        }
+        window.onload = createPetals;
+        window.onresize = createPetals;
+    </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Letters for Kasil</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for a heartfelt, classic feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600&family=Padauk:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Padauk", "Cormorant Garamond", serif;
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.4),
+            rgba(0, 0, 0, 0.4)
+          ),
+          url("https://images.unsplash.com/photo-1502472584811-0a2f2feb8968?auto=format&fit=crop&w=1920&q=80");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: #f5f3ef;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+      }
+
+      #letter-list {
+        background-color: rgba(26, 26, 26, 0.65);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 2s ease-out forwards;
+        max-width: 42rem;
+        margin: 1.5rem;
+      }
+
+      .letter-link {
+        display: block;
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: background-color 0.3s ease, padding-left 0.3s ease;
+      }
+
+      .letter-link:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        padding-left: 2rem;
+      }
+
+      .letter-link:last-child {
+        border-bottom: none;
+      }
+
+      .letter-title {
+        font-family: "Cormorant Garamond", serif;
+      }
+
+      .letter-date {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 0.9rem;
+        color: #b0a99f;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .petal {
+        position: absolute;
+        top: -20px;
+        background-color: #e58e8e;
+        border-radius: 50% 10%;
+        opacity: 0.7;
+        animation: fall linear infinite;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(105vh) rotate(360deg);
+        }
+      }
+
+      @media (max-width: 640px) {
+        #letter-list {
+          margin: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="flex items-center justify-center min-h-screen">
+    <main id="letter-list" class="w-full rounded-lg">
+      <header class="p-8 text-center">
+        <h1 class="letter-title text-4xl sm:text-5xl text-white">For Kasil</h1>
+        <p class="text-gray-300 mt-2 italic">From my heart to yours</p>
+      </header>
+
+      <nav class="py-2 border-y border-gray-700/50">
+        <a href="give-up.html" class="letter-link">
+          <span class="letter-title text-lg sm:text-xl text-gray-200 block"
+            >Should I Give Up?</span
+          >
+          <span class="letter-date block mt-1">August 24, 2025</span>
+        </a>
+        <a href="the-night-i-couldnt-sleep.html" class="letter-link">
+          <span class="letter-title text-lg sm:text-xl text-gray-200 block"
+            >The Night I Couldn't Sleep</span
+          >
+          <span class="letter-date block mt-1">August 31, 2025</span>
+        </a>
+        <!-- New letters can be added here in the future -->
+      </nav>
+
+      <footer class="text-center p-6 text-xs text-gray-400">
+        <p>With love, always.</p>
+      </footer>
+    </main>
+
+    <script>
+      function createPetals() {
+        const container = document.body;
+        const isMobile = window.innerWidth < 768;
+        const petalCount = isMobile ? 12 : 20;
+        if (document.querySelector(".petal")) return;
+        for (let i = 0; i < petalCount; i++) {
+          const petal = document.createElement("div");
+          petal.classList.add("petal");
+          const size = Math.random() * 8 + 4;
+          petal.style.width = `${size}px`;
+          petal.style.height = `${size}px`;
+          petal.style.left = `${Math.random() * 100}vw`;
+          const duration = Math.random() * 6 + 8;
+          const delay = Math.random() * 7;
+          petal.style.animationDuration = `${duration}s`;
+          petal.style.animationDelay = `${delay}s`;
+          container.appendChild(petal);
+        }
+      }
+      window.onload = createPetals;
+      window.onresize = createPetals;
+    </script>
+  </body>
+</html>

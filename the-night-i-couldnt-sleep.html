@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="my">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Letter to Kasil</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for a heartfelt, classic feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600&family=Padauk:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        /* Using Padauk for Burmese text, with Cormorant as a fallback */
+        font-family: "Padauk", "Cormorant Garamond", serif;
+        /* Background image with a dark overlay to make text pop */
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.4),
+            rgba(0, 0, 0, 0.4)
+          ),
+          url("https://images.unsplash.com/photo-1502472584811-0a2f2feb8968?auto=format&fit=crop&w=1920&q=80");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: #f5f3ef; /* A soft, warm parchment color for text */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden; /* Prevent horizontal scroll */
+      }
+
+      /* The main "paper" area for the letter */
+      #letter {
+        /* Semi-transparent background to let the scene peek through */
+        background-color: rgba(26, 26, 26, 0.65);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        /* A more graceful fade-in animation */
+        animation: fadeIn 2s ease-out forwards;
+        /* Ensure it doesn't get too wide on large screens */
+        max-width: 42rem; /* approx 672px */
+        /* Responsive margin for centering */
+        margin: 1.5rem;
+      }
+
+      .signature {
+        font-family: "Caveat", cursive;
+        color: #f7d794; /* A soft gold color */
+      }
+
+      /* The heart at the end with a soft pulse */
+      .heart {
+        color: #e58e8e; /* A dusty rose color */
+        text-shadow: 0 0 10px rgba(229, 142, 142, 0.5);
+        animation: pulse 2.5s infinite;
+      }
+
+      /* Paragraphs of the letter body */
+      .letter-body p {
+        margin-bottom: 1.25rem; /* Slightly less space on mobile */
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+      }
+
+      /* Falling petals animation */
+      .petal {
+        position: absolute;
+        top: -20px; /* Start above the screen */
+        background-color: #e58e8e;
+        border-radius: 50% 10%;
+        opacity: 0.7;
+        animation: fall linear infinite;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(105vh) rotate(360deg);
+        }
+      }
+
+      /* Mobile-specific adjustments */
+      @media (max-width: 640px) {
+        #letter {
+          padding: 1.5rem;
+          margin: 1rem;
+        }
+        .letter-body,
+        .letter-body p {
+          font-size: 1rem; /* Slightly smaller for Burmese text */
+          line-height: 1.9rem;
+        }
+        .signature {
+          font-size: 2.25rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="flex items-center justify-center min-h-screen">
+    <!-- The Letter Container -->
+    <main
+      id="letter"
+      class="w-full p-8 sm:p-12 lg:p-16 rounded-lg leading-loose"
+    >
+      <div class="text-right text-gray-400 text-xs sm:text-sm mb-12">
+        <p>August 31, 2025</p>
+        <p>04:01 AM</p>
+      </div>
+
+      <div class="letter-body text-base sm:text-lg">
+        <p>
+          အကို Kasil အကြောင်းတွေပြန်တွေးမိပြီး အိပ်မပျော်လို့ ဒီစာလေး
+          အကိုရေးလိုက်ပါတယ်။ အကိုလေ အမှန်တိုင်းဝန်ခံရရင် စစတွဲတုန်းက အကို
+          သဘောကျတာလောက်ပဲဖြစ်ခဲ့တာ။ အခုလောက်ချစ်မိသွားမယ် မထင်ခဲ့ဘူး။
+          ဘယ်ကနေဘယ်လိုစချစ်မိလဲ သေချာမသိခဲ့ပေမယ့် အကိုအရမ်းချစ်မိနေပြီလို့
+          သိလိုက်ရတဲ့အချိန်မှာ Kasil က အကို့ကို မချစ်တော့ဘူး၊ မလိုချင်တော့ဘူး။
+          အကိုအရင်က ကောင်းကောင်းမဆက်ဆံမိခဲ့တဲ့အတွက် အကို နောင်တရမိပါတယ်။
+          လူကြားထဲအော်မိခဲ့တာတွေအတွက်လဲ တောင်းပန်ပါတယ်။
+        </p>
+        <p>
+          ဘေဘီသိလား အကိုက တကယ်တမ်းအဲ့လောက်ထိ နှလုံးသားမရှိခဲ့ဘူး။
+          အရင်တစ်ယောက်ပေးခဲ့တဲ့ ဒဏ်ရာတွေကြောင့်လည်း ပါတယ်။ လူတစ်ယောက်ကို
+          အများကြီးချစ်မိသွားမှာ၊ သူ့အမှားတွေကို မမြင်နိုင်လောက်တော့တဲ့ထိ
+          ချစ်မိသွားမှာ အရမ်းကြောက်မိခဲ့တယ်။ အကို အရင်တစ်ယောက်အကြောင်းကြီးပဲ
+          mention နေတယ်ဆိုပြီး စိတ်ကောက်မနေနဲ့ဦး။ အဲ့တစ်ယောက်နဲ့
+          သုံးနှစ်ကျော်သံယောဇဉ်က ဘေဘီနဲ့ ၃ ရက်လောက်နဲ့တင်
+          သူ့ကိုလက်လွတ်နိုင်လိုက်တယ်။ သိရဲ့လား အဲ့တုန်းက ဘေဘီက
+          အကိုနဲ့အရမ်းအဆင်ပြေတာ။ အကိုလေ အမြဲတမ်းထာဝရ
+          တူတူရှိသွားတော့မယ်လို့ထင်ခဲ့တယ်။ အခုတော့ ထာဝရဆိုတာ
+          မတည်မြဲမှန်းသိလိုက်ပါပြီ။
+        </p>
+        <p>
+          အကိုလေ ဘေဘီနဲ့ပတ်သတ်ပြီး အော်ခဲ့မိတာတွေရော၊ အကိုတို့
+          တူတူရယ်မောခဲ့ကြတာတွေရော အကုန်နီးပါးကို မှတ်မိနေတယ်။ ဘေဘီသိလား ဘေဘီကို
+          ကျောင်းကကောင်က ပန်းပေးတာလေ၊ အကိုအဲ့တုန်းက မပေးနိုင်ခဲ့တာ
+          အရမ်းစိတ်မကောင်းဖြစ်မိတယ်။ သိလား။ အကိုမလုပ်ပေးနိုင်တာကို
+          တခြားလူလုပ်ပေးနေတော့ အကို ဒေါသတောင် ထွက်မိသေးတယ်။ တကယ်တမ်း ဘေဘီလဲ
+          မိန်းကလေးပဲ လိုချင်မှာပေါ့။ အကို ဘေဘီဘက်ကို မတွေးပေးခဲ့ဘူး။ ဘေဘီသာ
+          ဒီနိုင်ငံမှာဆို အကိုလဲလုပ်ပေးနိုင်မှာ သေချာတယ်သိလား။
+        </p>
+        <p>
+          ပြီးတော့လေ ဘေဘီ့ကို Valerie ဆိုတဲ့ကောင်နဲ့လဲစိတ်မချဘူးသိလား။ ဒါပေမယ့်
+          ဘေဘီက သူ့ကို unfriend တောင်လုပ်ပေးခဲ့တော့
+          အကိုသူ့အကြောင်းကိုထပ်တောင်မတွေးမိခဲ့ဘူး။ အကို့ကို
+          အမြဲစိတ်ချရအောင်နေပေးတာအရမ်းကျေးဇူးတင်တယ်သိလား။ အကိုတစ်ခါမှအဲ့လို
+          စိတ်လုံခြုံမှုမရခဲ့ဖူးဘူး။ အကိုအများကြီးယုံကြည်ခဲ့တယ်။
+          အကို့အနာဂတ်မှာလဲ ဘေဘီက အမြဲပါနေခဲ့တယ်။ တစ်ခါတစ်လေ
+          အကိုမှားတယ်လို့ခံစားရပါတယ် ဒါပေမယ့်အကိုက ဆရာကြီးဆိုတော့
+          မှားတဲ့နည်းမှန်ပါတယ် :3
+        </p>
+        <p>
+          အကို ဘေဘီ့ကို သေချာဂရုမစိုက်မိခဲ့ဘူး။ အကိုက loyal
+          ဖြစ်ပေးခဲ့တာပဲရှိတယ်။ ရည်းစားကောင်းတစ်ယောက်မဖြစ်ခဲ့ဘူး။ သူများတွေလို
+          သဲသဲလှုပ်မချစ်ပြတတ်တာတွေ တကယ်တမ်းမချစ်လို့မဟုတ်ပါဘူးကွာ
+          ဘေဘီလည်းသိမှာပါ။ ပြီးတော့ အကို တခြားမိန်းကလေးတွေနဲ့ ဂိမ်းဆော့တာကလဲ
+          ဂိမ်းထဲမှာပဲဆော့တာပါ။ အကိုတစ်ခါမှ tg acc မတောင်းခဲ့သလို အမြဲလဲ
+          သူတို့နဲ့မဆော့ပါဘူး။ random ပဲ ခေါ်ဆော့တာများပါတယ်။
+          အကိုအများဆုံးဆော့ဖြစ်တာဆိုလို့ Fu နဲ့ Phoo ပဲရှိတာ။ သူတို့နဲ့ကလဲ
+          ဘေဘီကပဲအထင်လွဲနေတာပါ။ အကို့ဘက်ကတော့ရိုးသားတာမို့
+          အကို့အပြစ်လို့တော့မပြောပါနဲ့။ ဘေဘီသဝန်တိုတာက ဘေဘီပဲပင်ပန်းမှာမို့
+          အကိုက မတိုဖို့ပြောတာပါ။ ဘယ်တုန်းမှဖြစ်လာမှာမဟုတ်တဲ့ဟာကို စိုးရိမ်နေတာက
+          ပင်ပန်းလို့ပါ။ အကိုသူတို့နဲ့ ပေါင်းတာကလဲ အကို့မှာ
+          သူငယ်ချင်းသိပ်မရှိလို့သိလား။ ပြီးတော့ သူတို့က
+          အကို့ကိုတကယ်ခင်တယ်ထင်လို့။ Phoo ဆိုရင်တော့
+          ဂိမ်းဆော့တဲ့အခါပဲပြောဖြစ်တာ။
+        </p>
+        <p>
+          ဘေဘီရယ် အကို မကောင်းခဲ့ဘူးထင်ရင်တောင် အကို့ကိုအဲ့လို
+          တခြားကောင်တွေအကြောင်းပြောတာတော့ မကောင်းပါဘူးကွာ။ ဘေဘီက
+          အကိုချစ်တာသိတော့ အဲ့ကောင်အကြောင်းတွေပဲပြောနေတာ။
+          အကိုဘယ်လိုခံစားရမလဲသိလား။ ရင်ဘတ်ထဲ အေးသလိုကြီးဖြစ်လာတာ။
+          အကို့ကိုနိုင်ချင်တာနဲ့တော့ အဲ့လိုတွေမလုပ်ပါနဲ့
+          အကိုမခံစားနိုင်ဘူးသိလား။ အကိုမလုပ်ပေးရင် တခြားကောင်ကလုပ်ပေးမယ်တဲ့။
+          တကယ်ပဲ အဲ့လိုတွေးနေတာပဲ။ အကိုတကယ်ခံစားရတယ်။ အကိုဘေဘီကိုယုံတယ်။
+          တခြားတစ်ယောက်ကို မချစ်နေဘူးဆိုတာ။ အဲ့ဒါမို့လဲ အကိုအခုချိန်ထိရှိနေသေးတာ
+          သိရဲ့လား။ အကိုဘေဘီကို တခြားတစ်ယောက်နဲ့သာ မြင်လိုက်ရရင်
+          ချက်ချင်းမုန်းမိသွားမှာ။ အကို့စိတ်ကိုအကိုသိတယ်။ အကို ဘေဘီကို
+          မမေ့ချင်ဘူး၊ မမုန်းချင်ဘူး။ အကိုမလုပ်နိုင်လို့မဟုတ်ဘူးကွာ၊
+          အကိုမလုပ်ချင်လို့။ အကိုတို့ကြားလဲ ပြဿနာက အရမ်းကြီးတာမရှိဘူး။
+          အကိုနည်းနည်းပြင်ပေးရင်ကို ရနေတာမို့ တကယ်မဝေးချင်ဘူး။
+        </p>
+        <p>
+          ဘေဘီက အကိုမေးတိုင်း "I don't need you", "I don't love you anymore", "I
+          don't wanna be with you" ဆိုပြီးပဲဖြေနေတာ။ အကိုကြာလာတော့
+          လက်လျှော့ချင်သလိုဖြစ်လာတယ်။ ဒါပေမယ့် ဇွဲကောင်းတာမျိုးကြိုက်တယ်ဆိုလို့
+          အကို ကြိုးစားနေတာပါ။ ပြီးတော့လေ သိလား အကိုတို့စစတွဲတုန်းက အဲ့လောက်ကြီး
+          အကိုက မလိုက်ခဲ့ရတော့ အခုပြန်လိုက်တယ်ဆိုပြီးသဘောထားတာ။ အဲ့ဒါမို့
+          မာနမထားပဲ အတင်းလိုက်ကပ်နေတာသိရဲ့လား။
+        </p>
+        <p>
+          စစတွေ့တုန်းကလေ ဘေဘီအသံလေးကြားလိုက်ရတုန်းက
+          ရင်ထဲတစ်မျိုးခံစားလိုက်ရတယ်သိလား။ ဒါပေမယ့် ကံဆိုးချင်တော့ Ryo က
+          ဘေဘီဆိုပြီးခေါ်တာကြားလိုက်ရတာ။ အကိုလဲ အဲ့ထဲက ဒီတိုင်းပဲ လျှော့လိုက်တာ။
+          အဲ့ထဲက စိတ်ဝင်စားမိတာ။ အရမ်း active ဖြစ်တယ်။ အကြောင်းအရာတွေအများကြီးပဲ
+          ပြောနေတာ ကျောင်းကဟာတွေအကုန်ပဲ။ တခြားလူတွေတော့မသိဘူး အကိုတော့ yapping
+          လုပ်နေတာ သဘောကျတယ်။ ဒါပေမယ့် ကံတရားက အကို့ကိုမျက်နှာသာမပေးဘူး။
+          ဘယ်လိုပြတ်သွားမှန်းသေချာတောင်မသိလိုက်ဘူး အကို့ဆီရောက်လာတယ်။ Kasil
+          ငိုနေတာမကြည့်ရက်ဘူး။ Kasil အဲ့တုန်းက
+          သူ့ကိုတော်တော်ချစ်ခဲ့တာပဲလို့ထင်တာ။
+          အများကြီးသူ့ကိုတောင်းပန်ခဲ့တာလဲအကိုသိတယ်။
+          အကို့ကောင်မလေးဖြစ်လာမှာကိုတော့ မသိခဲ့ဘူး။
+        </p>
+        <p>
+          Kasil က သူ့ကို cheat လုပ်လို့ပြတ်တာဆိုတော့
+          စတွဲတုန်းကအကို့ခေါင်းထဲတစ်ခုပဲဝင်လာတယ်သိလား။ အကို loyal
+          ဖြစ်ပေးရမယ်ဆိုတာပဲစိတ်ထဲစွဲနေတာ။ ဘယ်လို treat ရမလဲဆိုတာတော့
+          ကောင်းကောင်းမသိခဲ့ဘူး။ loyal ဖြစ်ရမယ်ဆိုတဲ့အတွေးနဲ့ သုံးနှစ်ကျော်
+          သံယောဇဉ်ရော၊ တစ်နှစ်ကျော်သံယောဇဉ်ပါဖြတ်ပြီး အကို Kasil အပေါ်ပဲ focus
+          ထားခဲ့တယ်။ အကို တစ်ခါမှ မပေးခဲ့ဖူးတဲ့ အရာတွေ ပေးခဲ့တယ်။ Kasil
+          အတွက်တော့ သာမန်ပဲတဲ့၊ လူတိုင်းလုပ်နိုင်တဲ့အရာတွေပဲဆိုတဲ့
+          စကားပဲပြန်ရခဲ့တယ်။ စိတ်မကောင်းတာတော့အမှန်ပဲ။ အကို့ပေါ်အဲ့လိုမြင်ခဲ့တာ
+          အကိုမသိခဲ့ဘူး။
+        </p>
+        <p>
+          ပြောစရာတွေက အရမ်းများနေတယ်။ အကိုနောက်ညမှဆက်ရေးတော့မယ်။
+          ဘေဘီချစ်သေးရင်ပြန်လာခဲ့ပါ။ အကို့ကို တခြားကောင်တွေအကြောင်းပြောပြီး
+          မနှိပ်စက်ပါနဲ့တော့။ အရမ်းချစ်တယ်ဘေဘီ။
+          အကိုအကောင်းဆုံးကြိုးစားပေးမယ်လို့ ကတိပေးတယ်။
+        </p>
+      </div>
+
+      <div class="mt-10">
+        <p class="signature text-3xl sm:text-4xl mt-2">Ruki</p>
+      </div>
+
+      <div class="text-center mt-10">
+        <p class="heart text-2xl sm:text-3xl">♥</p>
+      </div>
+    </main>
+
+    <script>
+      function createPetals() {
+        const container = document.body;
+        const isMobile = window.innerWidth < 768;
+        const petalCount = isMobile ? 12 : 20;
+        if (document.querySelector(".petal")) return;
+        for (let i = 0; i < petalCount; i++) {
+          const petal = document.createElement("div");
+          petal.classList.add("petal");
+          const size = Math.random() * 8 + 4;
+          petal.style.width = `${size}px`;
+          petal.style.height = `${size}px`;
+          petal.style.left = `${Math.random() * 100}vw`;
+          const duration = Math.random() * 6 + 8;
+          const delay = Math.random() * 7;
+          petal.style.animationDuration = `${duration}s`;
+          petal.style.animationDelay = `${delay}s`;
+          container.appendChild(petal);
+        }
+      }
+      window.onload = createPetals;
+      window.onresize = createPetals;
+    </script>
+  </body>
+</html>
