@@ -4,11 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Letters for Kasil</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@600&family=Padauk:wght@400;700&display=swap"
       rel="stylesheet"
@@ -26,6 +24,44 @@
         background-attachment: fixed;
         color: #f5f3ef;
       }
+
+      /* Floating hearts animation */
+      .floating-hearts {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .heart-float {
+        position: absolute;
+        color: rgba(255, 182, 193, 0.6);
+        font-size: 12px;
+        animation: floatUp 15s linear infinite;
+        pointer-events: none;
+      }
+
+      /* Starfield background */
+      .stars {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .star {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        animation: twinkle 3s infinite;
+      }
+
       #letter-list-container,
       #letter-viewer-container {
         background-color: rgba(26, 26, 26, 0.65);
@@ -33,20 +69,73 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
         animation: fadeIn 1.5s ease-out forwards;
       }
+
       .letter-link {
         transition: background-color 0.3s ease;
+        position: relative;
       }
       .letter-link:hover {
         background-color: rgba(255, 255, 255, 0.05);
       }
+      .letter-link.unread {
+        border-left: 4px solid #ef4444; /* Red border */
+        background-color: rgba(239, 68, 68, 0.1); /* Red background */
+      }
+      .letter-link.favorited {
+        border-left: 4px solid #f472b6; /* Pink border */
+        background-color: rgba(244, 114, 182, 0.1); /* Pink background */
+      }
+      .letter-link.favorited.unread {
+        border-left: 4px solid #f472b6; /* Pink border */
+        background: linear-gradient(
+          90deg,
+          rgba(244, 114, 182, 0.15),
+          /* Pink gradient start */ rgba(239, 68, 68, 0.1)
+            /* Red gradient end */
+        );
+      }
+
       .letter-title {
         font-family: "Cormorant Garamond", serif;
       }
+
       .letter-date {
         font-family: "Cormorant Garamond", serif;
         font-size: 0.9rem;
         color: #b0a99f;
       }
+
+      .action-btn {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        margin-left: 4px;
+      }
+      .action-btn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+      }
+
+      /* --- MODIFIED FOR RED THEME --- */
+      .action-btn.favorite {
+        color: #e22929; /* Keep strong red for favorite icon */
+        border-color: rgba(226, 41, 41, 0.4); /* Red border */
+      }
+      .action-btn.favorite:hover {
+        background-color: rgba(226, 41, 41, 0.2); /* Red hover background */
+      }
+      .action-btn.read {
+        color: #f472b6; /* Pink to match favorite border */
+        border-color: rgba(244, 114, 182, 0.4); /* Pink border */
+      }
+      .action-btn.read:hover {
+        background-color: rgba(244, 114, 182, 0.2); /* Pink hover background */
+      }
+      /* --- END MODIFICATION --- */
+
       .petal {
         position: absolute;
         top: -20px;
@@ -55,14 +144,17 @@
         opacity: 0.7;
         animation: fall linear infinite;
       }
+
       #new-letter-modal {
         background-color: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(5px);
       }
+
       .modal-content {
         background-color: #1a1a1a;
         animation: fadeIn 0.5s ease-out;
       }
+
       .share-btn {
         background-color: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
@@ -81,9 +173,11 @@
         text-shadow: 0 0 10px rgba(229, 142, 142, 0.5);
         animation: pulse 2.5s infinite;
       }
+
       .letter-body p {
         margin-bottom: 1.25rem;
       }
+
       @media (max-width: 640px) {
         #letter-viewer-container {
           padding: 1.5rem;
@@ -109,11 +203,13 @@
           transform: translateY(0);
         }
       }
+
       @keyframes fall {
         to {
           transform: translateY(105vh) rotate(360deg);
         }
       }
+
       @keyframes pulse {
         0%,
         100% {
@@ -125,10 +221,41 @@
           opacity: 1;
         }
       }
+
+      @keyframes floatUp {
+        0% {
+          opacity: 0;
+          transform: translateY(100vh) rotate(0deg);
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-100px) rotate(360deg);
+        }
+      }
+
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.2);
+        }
+      }
     </style>
   </head>
   <body class="flex items-center justify-center min-h-screen">
-    <!-- Main View: List of Letters -->
+    <div class="stars" id="stars"></div>
+    <div class="floating-hearts" id="floating-hearts"></div>
+
     <main
       id="letter-list-container"
       class="w-full max-w-2xl m-4 sm:m-6 rounded-lg shadow-2xl"
@@ -151,14 +278,11 @@
       </footer>
     </main>
 
-    <!-- Letter Viewer (Initially Hidden) -->
     <main
       id="letter-viewer-container"
       class="w-full max-w-2xl p-8 sm:p-12 lg:p-16 rounded-lg leading-loose m-4 sm:m-6 hidden"
     >
-      <div id="letter-content-container">
-        <!-- Dynamic letter content will be loaded here -->
-      </div>
+      <div id="letter-content-container"></div>
       <button
         id="back-to-list-btn"
         class="inline-block mt-8 text-pink-400 hover:text-pink-300 transition-colors"
@@ -167,7 +291,6 @@
       </button>
     </main>
 
-    <!-- Floating Action Button -->
     <button
       id="add-letter-btn"
       class="fixed bottom-6 right-6 bg-pink-500 hover:bg-pink-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-transform transform hover:scale-110 hidden"
@@ -188,7 +311,6 @@
       </svg>
     </button>
 
-    <!-- Modal for New Letter -->
     <div
       id="new-letter-modal"
       class="fixed inset-0 w-full h-full flex items-center justify-center hidden"
@@ -246,6 +368,7 @@
         doc,
         getDoc,
         addDoc,
+        updateDoc,
         onSnapshot,
         query,
         serverTimestamp,
@@ -319,61 +442,6 @@
         addBtn.classList.add("hidden");
       }
 
-      async function showLetterView(letterId) {
-        letterListContainer.classList.add("hidden");
-        letterViewerContainer.classList.remove("hidden");
-        addBtn.classList.add("hidden");
-        letterContentContainer.innerHTML = `<p class="text-center p-8 text-gray-400">Loading your letter...</p>`;
-
-        try {
-          // Read from the public collection
-          const letterRef = doc(
-            db,
-            "artifacts",
-            appId,
-            "public",
-            "data",
-            "letters",
-            letterId
-          );
-          const docSnap = await getDoc(letterRef);
-
-          if (docSnap.exists()) {
-            const letter = docSnap.data();
-            const date = letter.createdAt
-              ? letter.createdAt.toDate()
-              : new Date();
-            const formattedDate = date.toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            });
-            const formattedTime = date.toLocaleTimeString("en-US", {
-              hour: "2-digit",
-              minute: "2-digit",
-            });
-
-            letterContentContainer.innerHTML = `
-                        <div class="text-right text-gray-400 text-xs sm:text-sm mb-12">
-                            <p>${formattedDate}</p>
-                            <p>${formattedTime}</p>
-                        </div>
-                        <h1 class="letter-title text-3xl sm:text-4xl text-white mb-8">${letter.title}</h1>
-                        <div class="letter-body text-base sm:text-lg whitespace-pre-line">${letter.content}</div>
-                        <div class="mt-10"><p class="signature text-3xl sm:text-4xl mt-2">Ruki</p></div>
-                        <div class="text-center mt-10"><p class="heart text-2xl sm:text-3xl">♥</p></div>
-                    `;
-          } else {
-            letterContentContainer.innerHTML =
-              '<p class="text-center p-8 text-red-400">Letter not found.</p>';
-          }
-        } catch (error) {
-          console.error("Error loading document:", error);
-          letterContentContainer.innerHTML =
-            '<p class="text-center p-8 text-red-400">Could not load the letter.</p>';
-        }
-      }
-
       backToListBtn.addEventListener("click", showListView);
 
       // --- Modal Logic ---
@@ -387,12 +455,11 @@
       onAuthStateChanged(auth, (user) => {
         if (user) {
           currentUserId = user.uid;
-          userIdDisplay.textContent = `Admin Session: ${currentUserId.substring(
-            0,
-            8
-          )}...`;
+          //   userIdDisplay.textContent = `Admin Session: ${currentUserId.substring(
+          //     0,
+          //     8
+          //   )}...`;
 
-          // Letters are now in a public collection
           const lettersColRef = collection(
             db,
             "artifacts",
@@ -402,17 +469,37 @@
             "letters"
           );
 
-          // Listen for real-time updates for the letter list
           onSnapshot(query(lettersColRef), (snapshot) => {
             loadingState.style.display = "none";
             lettersContainer.innerHTML = "";
             if (snapshot.empty) {
               lettersContainer.innerHTML = `<p class="text-center p-8 text-gray-400">No letters written yet. Click the '+' to begin.</p>`;
             } else {
+              // Sort letters: favorites first, then by creation date
+              const letters = [];
               snapshot.docs.forEach((doc) => {
                 const letter = doc.data();
+                letters.push({ id: doc.id, ...letter });
+              });
+
+              letters.sort((a, b) => {
+                // Favorites first
+                if (a.favorited && !b.favorited) return -1;
+                if (!a.favorited && b.favorited) return 1;
+
+                // Then sort by date (newest first)
+                const dateA = a.createdAt ? a.createdAt.toDate() : new Date(0);
+                const dateB = b.createdAt ? b.createdAt.toDate() : new Date(0);
+                return dateB - dateA;
+              });
+
+              letters.forEach((letter) => {
                 const letterEl = document.createElement("div");
-                letterEl.className = "letter-link";
+                let className = "letter-link";
+                if (letter.favorited) className += " favorited";
+                if (!letter.read) className += " unread";
+                letterEl.className = className;
+
                 const date = letter.createdAt
                   ? letter.createdAt.toDate().toLocaleDateString("en-US", {
                       year: "numeric",
@@ -421,37 +508,121 @@
                     })
                   : "Just now";
 
+                const readStatus = letter.read ? "✓" : "●";
+                const favoriteIcon = letter.favorited ? "♥" : "♡";
+
                 letterEl.innerHTML = `
-                                <div class="p-4 sm:p-6 flex justify-between items-center">
-                                    <div class="cursor-pointer flex-grow" data-id="${doc.id}">
-                                        <span class="letter-title text-lg sm:text-xl text-gray-200 block">${letter.title}</span>
-                                        <span class="letter-date block mt-1">${date}</span>
-                                    </div>
-                                    <button data-id="${doc.id}" class="share-btn text-sm py-2 px-4 rounded-md ml-4">Share</button>
-                                </div>
-                            `;
+                  <div class="p-4 sm:p-6 flex justify-between items-center">
+                    <div class="cursor-pointer flex-grow" data-id="${
+                      letter.id
+                    }">
+                      <div class="flex items-center gap-2">
+                        <span class="text-sm ${
+                          letter.read ? "text-pink-400" : "text-red-400"
+                        }">${readStatus}</span>
+                        <span class="letter-title text-lg sm:text-xl text-gray-200">${
+                          letter.title
+                        }</span>
+                        ${
+                          letter.favorited
+                            ? '<span class="text-pink-400">♥</span>'
+                            : ""
+                        }
+                      </div>
+                      <span class="letter-date block mt-1">${date}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <button data-id="${
+                        letter.id
+                      }" data-action="favorite" class="action-btn favorite" title="Toggle Favorite">${favoriteIcon}</button>
+                      <button data-id="${
+                        letter.id
+                      }" data-action="read" class="action-btn read" title="Mark as ${
+                  letter.read ? "Unread" : "Read"
+                }">${readStatus}</button>
+                     
+                    </div>
+                  </div>
+                `;
                 lettersContainer.appendChild(letterEl);
               });
             }
           });
 
-          // Event listener for clicking on a letter or share button
-          lettersContainer.addEventListener("click", (e) => {
+          lettersContainer.addEventListener("click", async (e) => {
             const idElement = e.target.closest("[data-id]");
             if (!idElement) return;
             const letterId = idElement.dataset.id;
+            const action = e.target.dataset.action;
 
-            if (e.target.classList.contains("share-btn")) {
+            if (action === "share") {
               const path = window.location.pathname;
               const dir = path.substring(0, path.lastIndexOf("/") + 1);
               const shareUrl = `${window.location.origin}${dir}letter.html?id=${letterId}`;
               copyToClipboard(shareUrl, e.target);
+            } else if (action === "favorite") {
+              try {
+                const letterRef = doc(
+                  db,
+                  "artifacts",
+                  appId,
+                  "public",
+                  "data",
+                  "letters",
+                  letterId
+                );
+                const letterDoc = await getDoc(letterRef);
+                if (letterDoc.exists()) {
+                  const currentData = letterDoc.data();
+                  await updateDoc(letterRef, {
+                    favorited: !currentData.favorited,
+                  });
+                }
+              } catch (error) {
+                console.error("Error updating favorite status:", error);
+              }
+            } else if (action === "read") {
+              try {
+                const letterRef = doc(
+                  db,
+                  "artifacts",
+                  appId,
+                  "public",
+                  "data",
+                  "letters",
+                  letterId
+                );
+                const letterDoc = await getDoc(letterRef);
+                if (letterDoc.exists()) {
+                  const currentData = letterDoc.data();
+                  await updateDoc(letterRef, {
+                    read: !currentData.read,
+                  });
+                }
+              } catch (error) {
+                console.error("Error updating read status:", error);
+              }
             } else {
-              showLetterView(letterId);
+              // Mark as read when opening letter
+              try {
+                const letterRef = doc(
+                  db,
+                  "artifacts",
+                  appId,
+                  "public",
+                  "data",
+                  "letters",
+                  letterId
+                );
+                await updateDoc(letterRef, { read: true });
+              } catch (error) {
+                console.error("Error marking as read:", error);
+              }
+              //   showLetterView(letterId);
+              window.location.href = `letter.html?id=${letterId}`;
             }
           });
 
-          // Handle New Letter Form Submission
           newLetterForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const title = document.getElementById("letter-title-input").value;
@@ -463,6 +634,8 @@
                 title,
                 content,
                 createdAt: serverTimestamp(),
+                read: false,
+                favorited: false,
               });
               newLetterForm.reset();
               modal.classList.add("hidden");
@@ -492,10 +665,56 @@
       }
       authenticateUser();
 
-      // --- Decorative Petals ---
+      // --- Background Animations ---
+
+      // Create starfield
+      function createStars() {
+        const starsContainer = document.getElementById("stars");
+        for (let i = 0; i < 50; i++) {
+          const star = document.createElement("div");
+          star.className = "star";
+          star.style.left = Math.random() * 100 + "%";
+          star.style.top = Math.random() * 100 + "%";
+          star.style.width = star.style.height = Math.random() * 2 + 1 + "px";
+          star.style.animationDelay = Math.random() * 3 + "s";
+          star.style.animationDuration = Math.random() * 3 + 2 + "s";
+          starsContainer.appendChild(star);
+        }
+      }
+
+      // Create floating hearts
+      function createFloatingHearts() {
+        const heartsContainer = document.getElementById("floating-hearts");
+
+        function addHeart() {
+          const heart = document.createElement("div");
+          heart.className = "heart-float";
+          heart.innerHTML = "♥";
+          heart.style.left = Math.random() * 100 + "%";
+          heart.style.fontSize = Math.random() * 15 + 8 + "px";
+          heart.style.animationDuration = Math.random() * 8 + 12 + "s";
+          heart.style.animationDelay = Math.random() * 5 + "s";
+          heartsContainer.appendChild(heart);
+
+          setTimeout(() => {
+            if (heart.parentNode) {
+              heart.parentNode.removeChild(heart);
+            }
+          }, 15000);
+        }
+
+        setInterval(addHeart, 3000);
+
+        for (let i = 0; i < 3; i++) {
+          setTimeout(addHeart, i * 2000);
+        }
+      }
+
+      // Enhanced romantic petals
       function createPetals() {
         const container = document.body;
         if (document.querySelector(".petal")) return;
+
         for (let i = 0; i < 20; i++) {
           const petal = document.createElement("div");
           petal.className = "petal";
@@ -508,7 +727,13 @@
           container.appendChild(petal);
         }
       }
-      window.onload = createPetals;
+
+      // Initialize all elements
+      window.onload = () => {
+        createStars();
+        createFloatingHearts();
+        createPetals();
+      };
     </script>
   </body>
 </html>
